@@ -1,0 +1,26 @@
+{
+	"name": "tracers",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "webpack",
+		"watch": "webpack --watch",
+		"test": "babel-node spec/run.js"
+	},
+	"author": "Anton Zotov",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/jasmine": "^2.8.5",
+		"babel-core": "^6.26.0",
+		"babel-loader": "^7.1.2",
+		"babel-preset-es2015": "^6.24.1",
+		"jasmine": "^2.9.0",
+		"webpack": "^3.10.0",
+		"webpack-dev-server": "^2.11.1"
+	},
+	"dependencies": {
+		"babel-cli": "^6.26.0",
+		"socket.io-client": "^2.0.4"
+	}
+}
