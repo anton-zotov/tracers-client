@@ -146,6 +146,7 @@ let Tracer = function(screen_ctx, game_api, x, y, angle=0, id=false, canvas_prov
 		getReloadProgress: () => (reload_time - reload_time_left) / reload_time,
 		checkCollision: checkCollision,
 		hit: hit,
+		getMaxHp: () => max_hp,
 		hpPercentage: hpPercentage,
 		getAngle: () => angle,
 		getRect: getRect,

@@ -55,8 +55,13 @@ let FakeCanvasProvider = {
 	}
 }
 
-let fake_game_api = {
-	addBullet: 1,
+let FakeGameApi = function () {
+	return {
+		bullets: [],
+		addBullet(bullet) {
+			this.bullets.push(bullet);
+		}
+	};
 }
 
 Object.prototype.isEmpty = function() {
@@ -68,5 +73,5 @@ String.prototype.pad = function(content, size) {
 	return s;
 }
 
-export { Utils, Vector2, MemoryCanvasProvider, FakeCanvasProvider, fake_game_api };
+export { Utils, Vector2, MemoryCanvasProvider, FakeCanvasProvider, FakeGameApi };
 export default Utils;

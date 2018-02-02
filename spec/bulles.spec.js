@@ -1,5 +1,5 @@
-import Bullet from "../../src/bullet";
-import { FakeCanvasProvider } from "../../src/utils";
+import Bullet from "../src/bullet";
+import { FakeCanvasProvider } from "../src/utils";
 
 
 describe("Bullet", function() {

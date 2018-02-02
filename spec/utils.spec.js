@@ -1,4 +1,4 @@
-import { Utils, Vector2, MemoryCanvasProvider, FakeCanvasProvider } from "../../src/utils";
+import { Utils, Vector2, FakeCanvasProvider } from "../src/utils";
 
 describe("Utils", function() {
 	it("should convert radians to degrees", function() {
