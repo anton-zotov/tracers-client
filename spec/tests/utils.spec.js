@@ -1,4 +1,4 @@
-import { Utils, Vector2 } from "../../src/utils";
+import { Utils, Vector2, MemoryCanvasProvider, FakeCanvasProvider } from "../../src/utils";
 
 describe("Utils", function() {
 	it("should convert radians to degrees", function() {
@@ -66,4 +66,15 @@ describe("Global augments", function(){
 		expect("test".pad("!", 7)).toBe("!!!test");
 		expect("test".pad("!", 3)).toBe("test");
 	});
+});
+
+describe("FakeCanvasProvider", function () {
+	const test = (viewport) => { it("should return a viewport object", function () {
+		expect(viewport.canvas).not.toBe(undefined);
+		expect(viewport.ctx).not.toBe(undefined);
+		expect(viewport.canvas).not.toBe(undefined);
+		expect(viewport.canvas).not.toBe(undefined);
+	})};
+
+	test(FakeCanvasProvider.get());
 });

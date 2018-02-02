@@ -33,14 +33,40 @@ let Vector2 = function(x, y){
 	}
 }
 
+let MemoryCanvasProvider = {
+	get(width=0, height=0, angle=0, center_x=0.5, center_y=0.5) {
+		let canvas = document.createElement("canvas");
+		let ctx = canvas.getContext('2d');
+		canvas.width = width;
+		canvas.height = height;
+		ctx.translate(canvas.width*center_x,canvas.height*center_y);
+		ctx.rotate(angle);
+		return {
+			canvas, ctx, width, height
+		};
+	}
+}
+
+let FakeCanvasProvider = {
+	get() {
+		return {
+			canvas: null, ctx: null, width: null, height: null
+		}
+	}
+}
+
+let fake_game_api = {
+	addBullet: 1,
+}
+
 Object.prototype.isEmpty = function() {
 	return !Object.keys(this).length;
 }
 String.prototype.pad = function(content, size) {
-    var s = String(this);
-    while (s.length < (size || 1)) {s = content + s;}
-    return s;
+	var s = String(this);
+	while (s.length < (size || 1)) {s = content + s;}
+	return s;
 }
 
-export { Utils, Vector2 };
+export { Utils, Vector2, MemoryCanvasProvider, FakeCanvasProvider, fake_game_api };
 export default Utils;

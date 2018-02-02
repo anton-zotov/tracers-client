@@ -1,16 +1,15 @@
 module.exports = {
-    entry: './src/init.js',
+	target: 'web',
+	entry: ['babel-polyfill', './src/init.js'],
     output: {
         filename: './dist/bundle.js'
     },
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.js$/,
-				loader: 'babel-loader',
-				query: {
-					presets: ['es2015']
-				}
+				exclude: /node_modules/,
+				loaders: ['babel-loader', 'eslint-loader']
 			}
 		]
 	},

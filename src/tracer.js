@@ -1,10 +1,7 @@
-import Utils from './utils'
+import { Utils, MemoryCanvasProvider } from './utils'
 import Bullet from './bullet'
 
-let Tracer = function(screen_ctx, game_api, x, y, init_angle=0, id=false) {
-	let canvas = document.createElement("canvas");
-	let ctx = canvas.getContext('2d');
-	let angle = 0;
+let Tracer = function(screen_ctx, game_api, x, y, angle=0, id=false, canvas_provider=MemoryCanvasProvider) {
 	let speed = 500;
 	let max_ammo = 30;
 	let ammo = max_ammo;
@@ -18,34 +15,32 @@ let Tracer = function(screen_ctx, game_api, x, y, init_angle=0, id=false) {
 	let width = 16;
 	let height = 40;
 	let changes = {};
+	let viewport = canvas_provider.get(100, 100, angle);
 
-	canvas.width = 100;
-	canvas.height = 100;
-
-	ctx.translate(canvas.width/2,canvas.height/2);
-	rotate(init_angle);
-
+	draw_buffer();
 
 	function draw() {
-		draw_buffer();
-		screen_ctx.drawImage(canvas, x - canvas.width / 2, y - canvas.height / 2);
+		screen_ctx.drawImage(viewport.canvas, x - viewport.width / 2, y - viewport.height / 2);
 		bullets.forEach(bullet => bullet.draw());
 	}
 
 	function draw_buffer() {
-		ctx.clearRect(-canvas.width/2, -canvas.height/2, canvas.width, canvas.height);
-		ctx.fillStyle="#"+Math.round((1 - hpPercentage()) * 255).toString(16).pad('0', 2)+'0000';
-		ctx.fillRect(-width/2, -height/2, width, height);
-		ctx.fillRect(-24, -2, 16, 4);
-		//ctx.fillRect(-24, height/2-4, 16, 4);
+		if (!viewport.ctx)
+			return;
+		viewport.ctx.clearRect(-viewport.width/2, -viewport.height/2, viewport.width, viewport.height);
+		viewport.ctx.fillStyle="#"+Math.round((1 - hpPercentage()) * 255).toString(16).pad('0', 2)+'0000';
+		viewport.ctx.fillRect(-width/2, -height/2, width, height);
+		viewport.ctx.fillRect(-24, -2, 16, 4);
+		//viewport.ctx.fillRect(-24, height/2-4, 16, 4);
 	}
 
 	function rotate(a) {
 		let diff = a - angle;
 		if (diff) {
 			angle = a;
-			ctx.rotate(diff);
-			draw_buffer();
+			if (viewport.ctx) {
+				viewport.ctx.rotate(diff);
+			}
 			addChange({angle: angle.toFixed(3)});
 		}
 	}
@@ -67,7 +62,7 @@ let Tracer = function(screen_ctx, game_api, x, y, init_angle=0, id=false) {
 		let y_speed = speed * dt * Math.sin(angle + add_angle);
 		x -= x_speed;
 		y -= y_speed;
-		addChange({x: Math.round(x), y: Math.round(y)});
+		addChange({x: Math.round(x), y: Math.round(y)}, false);
 	}
 
 	function blink(angle) {
@@ -113,8 +108,10 @@ let Tracer = function(screen_ctx, game_api, x, y, init_angle=0, id=false) {
 		}
 	}
 
-	function addChange(change) {
+	function addChange(change, update=true) {
 		changes = Object.assign(changes, change);
+		if (update)
+			draw_buffer();
 	}
 
 	function getChanges() {
@@ -158,12 +155,5 @@ let Tracer = function(screen_ctx, game_api, x, y, init_angle=0, id=false) {
 		setData: setData
 	}
 }
-
-const DIR = {
-	forward: [1,0],
-	right: [0,1],
-	backward: [-1,0],
-	left: [0,-1],
- };
 
  export default Tracer;

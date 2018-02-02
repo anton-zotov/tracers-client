@@ -189,4 +189,5 @@ let Game = function(canvas) {
 	window.requestAnimationFrame(step);
 };
 
+export { Game };
 export default Game;
